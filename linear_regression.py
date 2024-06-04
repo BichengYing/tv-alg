@@ -50,7 +50,7 @@ def grad_fn_agent(x, Aarr, barr, worker_index, reg, noise=False):
     A = Aarr[worker_index]
     b = barr[worker_index]
     if noise:
-        mu, sigma = 0, 0.0001  # mean and standard deviation
+        mu, sigma = 0, 0.001  # mean and standard deviation
         s = np.random.normal(mu, sigma, x.shape)
         return A.T.dot(A.dot(x) - b) + reg * (2 * x) / (x**2 + 1) ** 2 + s
     return A.T.dot(A.dot(x) - b) + reg * (2 * x) / (x**2 + 1) ** 2
