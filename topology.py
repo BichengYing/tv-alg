@@ -1,4 +1,5 @@
 """Helper function defined for various basic topology (weighted adjacency matrix)"""
+
 import functools
 import numpy as np
 
@@ -17,6 +18,25 @@ def dynamic_exp2(iter, size=8):
     tau = np.ceil(np.log2(size))
     _iter = iter % tau
     return _dynamic_exp2(_iter, size)
+
+
+def ring(iter, size):
+    x = np.array([0.0 for i in range(size)])
+    x[0], x[1], x[-1] = 1.0, 1.0, 1.0
+    x /= x.sum()
+    topo = np.empty((size, size))
+    for i in range(size):
+        topo[i] = np.roll(x, i)
+    return topo
+
+
+def star(iter, size):
+    topo = np.empty((size, size))
+    topo = np.eye(size) * (size - 1) / size
+    for i in range(size):
+        topo[i, 0] = 1 / size
+        topo[0, i] = 1 / size
+    return topo
 
 
 @functools.cache
